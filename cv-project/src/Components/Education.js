@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import EducationOverview from "./EducationOverview";
+import uniqid from "uniqid";
 class Education extends Component {
   constructor(props) {
     super(props);
@@ -9,11 +10,24 @@ class Education extends Component {
         schoolName: "Erith",
         subject: "English ",
         dateOfStudy: "1996-2001",
+        uniqid: uniqid(),
       },
       educations: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.edit = this.edit.bind(this);
+  }
+
+  edit(e) {
+    this.setState({
+      education: {
+        schoolName: "Erith",
+        subject: "English ",
+        dateOfStudy: "1996-2001",
+        uniqid: e.target.id,
+      },
+    });
   }
 
   handleChange = e => {
@@ -22,6 +36,7 @@ class Education extends Component {
 
     this.setState(prevState => {
       prevState.education[id] = value;
+
       return {
         education: prevState.education,
       };
@@ -30,8 +45,36 @@ class Education extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    for (let i = 0; i < this.state.educations.length; i++) {
+      if (this.state.education.uniqid === this.state.educations[i].uniqid) {
+        const newEducations = this.state.educations.slice();
+        newEducations[i] = {
+          schoolName: this.state.education.schoolName,
+          subject: this.state.education.subject,
+          dateOfStudy: this.state.education.dateOfStudy,
+          uniqid: this.state.education.uniqid,
+        };
+        this.setState({
+          educations: newEducations,
+          education: {
+            schoolName: "",
+            subject: "",
+            dateOfStudy: "",
+            uniqid: uniqid(),
+          },
+        });
+        return;
+      }
+    }
+    //console.log(this.state.education.uniqid);
     this.setState({
       educations: this.state.educations.concat(this.state.education),
+      education: {
+        schoolName: "",
+        subject: "",
+        dateOfStudy: "",
+        uniqid: uniqid(),
+      },
     });
     console.log(this.state.educations);
   };
@@ -65,7 +108,7 @@ class Education extends Component {
           />
           <input type="submit" value="Submit" />
         </form>
-        <EducationOverview education={educations} />
+        <EducationOverview education={educations} edit={this.edit} />
       </div>
     );
   }

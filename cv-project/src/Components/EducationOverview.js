@@ -6,15 +6,21 @@ class EducationOverview extends Component {
   }
 
   render() {
-    const { education } = this.props;
+    const { education, edit } = this.props;
 
     return (
       <div>
         <ul>
           {education.map(education => {
             return (
-              <li>
-                <h1>{education.schoolName}</h1>
+              <li key={education.uniqid}>
+                <h1>
+                  {education.schoolName}{" "}
+                  <button id={education.uniqid} onClick={edit}>
+                    Edit!
+                  </button>
+                </h1>
+
                 {education.subject}
               </li>
             );
