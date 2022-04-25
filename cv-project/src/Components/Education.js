@@ -20,13 +20,12 @@ class Education extends Component {
   }
 
   edit(e) {
+    const editing = this.state.educations.filter(
+      education => education.uniqid === e.target.id
+    );
+
     this.setState({
-      education: {
-        schoolName: "Erith",
-        subject: "English ",
-        dateOfStudy: "1996-2001",
-        uniqid: e.target.id,
-      },
+      education: editing[0],
     });
   }
 

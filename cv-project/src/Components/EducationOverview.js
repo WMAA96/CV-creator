@@ -22,6 +22,7 @@ class EducationOverview extends Component {
                 </h1>
 
                 {education.subject}
+                {education.dateOfStudy}
               </li>
             );
           })}
